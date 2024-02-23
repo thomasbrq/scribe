@@ -2,7 +2,7 @@
 
 The aim of the project is to transcribe audios via a Telegram bot.
 
-![gif](https://github.com/thomasbrq/audio_transcriber/assets/71637888/e6c0620b-70a5-428c-b69f-1db6ca5fdd52)
+![gif](assets/gif.gif)
 
 [Source audio](https://audio-lingua.ac-versailles.fr/spip.php?article8774)
 
