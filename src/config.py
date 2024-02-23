@@ -1,0 +1,3 @@
+ENV_VARIABLES_EXPECTED = [
+    "API_KEY"
+]
