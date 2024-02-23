@@ -60,6 +60,9 @@ class TelegramService:
         else:
             await ctx.context.bot.send_message(chat_id=ctx.update.effective_chat.id, text=message)
 
+    async def __reply_to_user_with_error__(self, ctx: Context, message: str) -> None:
+        await ctx.context.bot.send_message(chat_id=ctx.update.effective_chat.id, text=fr"❌{message}")
+
     async def __start__(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         first_name = update.message.chat.first_name
         message = fr"Hello {first_name}, send me an audio and I will transcribe it for you!"
@@ -76,7 +79,9 @@ class TelegramService:
 
         audio = update.message.audio
         if not audio:
-            self.__logger__.error("the file received is not an audio")
+            error_string = self.__logger__.error("The file received is not an audio")
+            ctx = Context(update=update, context=context)
+            await self.__reply_to_user_with_error__(ctx=ctx, message=error_string)
             return
 
         try:
@@ -93,3 +98,5 @@ class TelegramService:
         except Exception as e:
             error_string = str(e)
             self.__logger__.error(error_string)
+            ctx = Context(update=update, context=context)
+            await self.__reply_to_user_with_error__(ctx=ctx, message="Unable to transcribe your audio. The format may not be supported, or your file may be corrupted.")
