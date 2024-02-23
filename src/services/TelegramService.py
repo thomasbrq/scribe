@@ -12,7 +12,7 @@ from dataclasses import dataclass
 import json
 
 @dataclass
-class CommandItem:
+class Command:
     name: str
     fn: Callable[[Update, ContextTypes], Coroutine]
 
@@ -34,8 +34,8 @@ class TelegramService:
         self.__logger__.info("Bot is running.")
 
         commands = [
-            CommandItem(name="ping", fn=self.__ping__),
-            CommandItem(name="start", fn=self.__start__),
+            Command(name="ping", fn=self.__ping__),
+            Command(name="start", fn=self.__start__),
         ]
         self.__add_commands__(commands=commands)
 
@@ -49,7 +49,7 @@ class TelegramService:
         self.__transcribe_service = TranscribeService()
         pass
 
-    def __add_commands__(self, commands: List[CommandItem]) -> None:
+    def __add_commands__(self, commands: List[Command]) -> None:
         for command in commands:
             self.__app__.add_handler( CommandHandler(command.name, command.fn) )
             self.__logger__.info(fr"'{command.name}' command successfully added.")
